@@ -26,44 +26,28 @@ public class Uber {
 
 	public int getRunTime(int[] tasks, int cd) {
 
-		if (tasks == null || tasks.length == 0) {
-			return 0;
-		} else if (tasks.length == 1) {
-			return 1;
-		}
-
-		Queue<Integer> q = new LinkedList<Integer>();
-		Map<Integer, Integer> m = new HashMap<>();
-		int i = 0;
+		int i=0;
 		int time = 0;
-		while (i < tasks.length) {
-			if (q.isEmpty()) {
-				time++;
-				q.add(tasks[i]);
-				m.put(tasks[i], 1);
-				i++;
-			} else {
-				if (m.get(tasks[i]) == null || m.get(tasks[i]) == 0) {
-					q.add(tasks[i]);
-					m.put(tasks[i], 1);
-					time++;
-					i++;
-				} else {
-					q.add(-1); // pause
-					time++;
-				}
+		while(i< tasks.length){
+		    if(!map.containsKey(tasks[i]) ){
+			time++;
+			map.put(tasks[i], time);
+			i++;
+		    } else {
+			int index = map.get(tasks[i]);
+			if(time - index >= cd){
+			    time++;
+			    map.put(tasks[i], time);
+			    i++;
+			} else{
+			    time  = time + (cd - (time-index));
+			    time++;
+			    map.put(tasks[i], time);
+			    i++;
 			}
-
-			if (q.size() > cd) {
-				Integer poll = q.poll();
-				if (m.get(poll) != null) {
-					int n = m.get(poll);
-					if (n > 0) {
-						m.put(poll, n - 1);
-					}
-				}
-			}
+		    }
 		}
+
 		return time;
 	}
 }
