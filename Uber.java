@@ -26,28 +26,33 @@ public class Uber {
 
 	public int getRunTime(int[] tasks, int cd) {
 
-		int i=0;
-		int time = 0;
-		while(i< tasks.length){
-		    if(!map.containsKey(tasks[i]) ){
-			time++;
-			map.put(tasks[i], time);
-			i++;
-		    } else {
-			int index = map.get(tasks[i]);
-			if(time - index >= cd){
-			    time++;
-			    map.put(tasks[i], time);
-			    i++;
-			} else{
-			    time  = time + (cd - (time-index));
-			    time++;
-			    map.put(tasks[i], time);
-			    i++;
-			}
-		    }
-		}
-
-		return time;
+		if(tasks == null || tasks.length == 0){
+            return 0;
+        }
+        
+        Map<Integer, Integer> map = new HashMap<>();
+        int i=0;
+        int time = 0;
+        while(i< tasks.length){
+            if(!map.containsKey(tasks[i]) ){
+                time++;
+                map.put(tasks[i], time);
+                i++;
+            } else {
+                int index = map.get(tasks[i]);
+                if(time - index >= cd){
+                    time++;
+                    map.put(tasks[i], time);
+                    i++;
+                } else{
+                    time  = time + (cd - (time-index));
+                    time++;
+                    map.put(tasks[i], time);
+                    i++;
+                }
+            }
+        }
+        
+        return time;
 	}
 }
